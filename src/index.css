@@ -1,4 +1,3 @@
-/* Global reset — the game fills 100% of the viewport, no scroll */
 *,
 *::before,
 *::after {
@@ -15,35 +14,92 @@ body,
   overflow: hidden;
 }
 
-/* Showa-era yankee base palette */
 body {
   background: #120800;
   color: #e8d5a0;
-  /* System font stack — a custom 筆文字 web font is loaded in M8 */
   font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
 }
 
-/* Boot screen (M0 placeholder) */
-.boot-screen {
+.app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.canvas-wrapper {
+  position: absolute;
+  inset: 0;
+}
+
+/* ===== TITLE SCREEN ===== */
+.title-screen {
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  gap: 1.5rem;
+  gap: 28px;
+  background: radial-gradient(ellipse at center, #1e0f00 0%, #120800 70%);
 }
 
-.boot-title {
-  font-size: clamp(2rem, 6vw, 5rem);
+.title-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  line-height: 1;
+}
+
+.title-kanji {
+  font-size: clamp(3rem, 8vw, 6rem);
   font-weight: 900;
-  letter-spacing: 0.1em;
   color: #e8c040;
-  text-shadow: 0 0 30px rgba(232, 192, 64, 0.5);
+  text-shadow: 0 0 40px rgba(232, 192, 64, 0.6), 3px 3px 0 #5a3800;
+  letter-spacing: 0.05em;
 }
 
-.boot-sub {
+.title-num {
+  font-size: clamp(4rem, 10vw, 8rem);
+  font-weight: 900;
+  color: #e74c3c;
+  text-shadow: 0 0 40px rgba(231, 76, 60, 0.7), 3px 3px 0 #5a0000;
+}
+
+.title-tagline {
   font-size: 1rem;
   color: #a08060;
+  letter-spacing: 0.3em;
+}
+
+.title-btn {
+  background: linear-gradient(135deg, #e8c040 0%, #c89020 100%);
+  border: none;
+  border-radius: 6px;
+  color: #120800;
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-family: inherit;
+  padding: 14px 56px;
+  cursor: pointer;
   letter-spacing: 0.2em;
+  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 0 4px 20px rgba(232, 192, 64, 0.4);
+}
+
+.title-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(232, 192, 64, 0.6);
+}
+
+.title-btn:active {
+  transform: translateY(0);
+}
+
+.title-controls {
+  margin-top: 8px;
+  text-align: center;
+  color: rgba(232, 213, 160, 0.4);
+  font-size: 0.8rem;
+  line-height: 1.8;
+  letter-spacing: 0.05em;
 }

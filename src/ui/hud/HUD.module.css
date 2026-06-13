@@ -1,0 +1,129 @@
+.hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  color: #e8d5a0;
+}
+
+.playerPanel {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: rgba(18, 8, 0, 0.75);
+  border: 1px solid #8B7020;
+  border-radius: 4px;
+  padding: 10px 14px;
+  min-width: 220px;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #e8c040;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+  text-shadow: 0 0 8px rgba(232, 192, 64, 0.6);
+}
+
+.barRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0;
+}
+
+.label {
+  font-size: 11px;
+  width: 28px;
+  color: #c4a060;
+}
+
+.barBg {
+  flex: 1;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.barFg {
+  height: 100%;
+  transition: width 0.1s ease;
+  border-radius: 2px;
+}
+
+.barNum {
+  font-size: 11px;
+  width: 40px;
+  text-align: right;
+  color: #c4a060;
+}
+
+.rank {
+  font-size: 11px;
+  color: #e8c040;
+  margin-top: 6px;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+.combo {
+  position: absolute;
+  top: 50%;
+  right: 40px;
+  transform: translateY(-50%);
+  text-align: center;
+  animation: comboAppear 0.15s ease-out;
+}
+
+.comboNum {
+  display: block;
+  font-size: 72px;
+  font-weight: 900;
+  color: #e8c040;
+  text-shadow: 0 0 20px rgba(232, 192, 64, 0.8), 2px 2px 0 #000;
+  line-height: 1;
+}
+
+.comboLabel {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff6b35;
+  text-shadow: 1px 1px 0 #000;
+}
+
+@keyframes comboAppear {
+  from { transform: translateY(-50%) scale(1.4); opacity: 0.7; }
+  to   { transform: translateY(-50%) scale(1); opacity: 1; }
+}
+
+.controls {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: rgba(232, 213, 160, 0.5);
+  letter-spacing: 0.05em;
+}
+
+.fightIndicator {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 22px;
+  font-weight: bold;
+  color: #e74c3c;
+  text-shadow: 0 0 12px rgba(231, 76, 60, 0.8), 2px 2px 0 #000;
+  letter-spacing: 0.15em;
+  animation: pulse 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 0.8; }
+  to   { opacity: 1; }
+}

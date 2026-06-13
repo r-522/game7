@@ -1,0 +1,95 @@
+.screen {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 8, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  z-index: 20;
+}
+
+.card {
+  background: rgba(232, 192, 64, 0.05);
+  border: 2px solid #8B7020;
+  border-radius: 10px;
+  padding: 40px 60px;
+  min-width: 380px;
+  text-align: center;
+  color: #e8d5a0;
+}
+
+.resultLabel {
+  font-size: 52px;
+  font-weight: 900;
+  text-shadow: 0 0 20px currentColor;
+  letter-spacing: 0.15em;
+  margin-bottom: 8px;
+  animation: resultAppear 0.4s ease-out;
+}
+
+@keyframes resultAppear {
+  from { transform: scale(0.6); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.verdict {
+  font-size: 26px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.bonus {
+  font-size: 14px;
+  color: #f39c12;
+  background: rgba(243, 156, 18, 0.15);
+  border: 1px solid #f39c12;
+  border-radius: 4px;
+  padding: 4px 12px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.stats {
+  border-top: 1px solid #5a4010;
+  border-bottom: 1px solid #5a4010;
+  padding: 16px 0;
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+}
+
+.row span:first-child { color: #c4a060; }
+.row span:last-child  { font-weight: bold; }
+
+.rank {
+  font-size: 14px;
+  color: #e8c040;
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+
+.continueBtn {
+  background: linear-gradient(135deg, #e8c040, #c89020);
+  border: none;
+  border-radius: 6px;
+  color: #120800;
+  font-size: 20px;
+  font-weight: 900;
+  font-family: inherit;
+  padding: 12px 48px;
+  cursor: pointer;
+  letter-spacing: 0.15em;
+  transition: transform 0.1s, opacity 0.1s;
+}
+
+.continueBtn:hover { transform: translateY(-2px); opacity: 0.9; }
+.continueBtn:active { transform: translateY(0); }
