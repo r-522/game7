@@ -20,18 +20,38 @@ body {
   font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
 }
 
+/* ===== LAYOUT ===== */
+
 .app {
   width: 100%;
   height: 100%;
   position: relative;
+  background: #120800;
+  isolation: isolate;
 }
 
 .canvas-wrapper {
   position: absolute;
   inset: 0;
+  z-index: 0;
+}
+
+/* ===== OVERLAY SCREENS ===== */
+
+.settings-overlay,
+.story-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(3px);
 }
 
 /* ===== TITLE SCREEN ===== */
+
 .title-screen {
   width: 100%;
   height: 100%;
@@ -41,6 +61,8 @@ body {
   justify-content: center;
   gap: 28px;
   background: radial-gradient(ellipse at center, #1e0f00 0%, #120800 70%);
+  position: relative;
+  z-index: 1;
 }
 
 .title-logo {
@@ -102,4 +124,100 @@ body {
   font-size: 0.8rem;
   line-height: 1.8;
   letter-spacing: 0.05em;
+}
+
+/* ===== CRT SCANLINE EFFECT ===== */
+
+.crt-scanlines {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 999;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  animation: scanlines 8s linear infinite;
+}
+
+/* ===== GLOBAL ANIMATIONS ===== */
+
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+@keyframes scanlines {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100vh;
+  }
+}
+
+@keyframes float-up {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  15% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(232, 192, 64, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(232, 192, 64, 0.8);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

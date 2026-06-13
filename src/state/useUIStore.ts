@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-type Screen = 'TITLE' | 'GAME' | 'PAUSE' | 'MENCHI' | 'TANKA' | 'RESULT'
+type Screen = 'TITLE' | 'GAME' | 'PAUSE' | 'MENCHI' | 'TANKA' | 'RESULT' | 'SETTINGS' | 'STORY_DIALOG'
 
 interface UIState {
   screen: Screen

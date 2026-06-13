@@ -1,129 +1,344 @@
+/* ============================================================
+   HUD.module.css — 喧嘩番長7 HUD styles
+   Showa yankee aesthetic: dark amber panels, gold bars
+   ============================================================ */
+
 .hud {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Noto Sans JP',
+    'Meiryo', sans-serif;
   color: #e8d5a0;
+  user-select: none;
 }
 
+/* ── Hit flash overlay ── */
+.hitFlash::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(200, 0, 0, 0.35);
+  pointer-events: none;
+  animation: hitFlashAnim 0.12s ease-out forwards;
+  z-index: 100;
+}
+
+@keyframes hitFlashAnim {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ── Shared panel base ── */
+.playerPanel,
+.kiaiPanel,
+.enemyPanel {
+  background: rgba(18, 8, 0, 0.82);
+  border: 1px solid #8b7020;
+  border-radius: 4px;
+  padding: 10px 14px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 230, 100, 0.08),
+    0 2px 12px rgba(0, 0, 0, 0.7);
+}
+
+/* ── Player panel (top-left) ── */
 .playerPanel {
   position: absolute;
   top: 16px;
   left: 16px;
-  background: rgba(18, 8, 0, 0.75);
-  border: 1px solid #8B7020;
-  border-radius: 4px;
-  padding: 10px 14px;
-  min-width: 220px;
+  min-width: 240px;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
 .name {
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 900;
   color: #e8c040;
-  letter-spacing: 0.1em;
-  margin-bottom: 6px;
-  text-shadow: 0 0 8px rgba(232, 192, 64, 0.6);
+  letter-spacing: 0.12em;
+  text-shadow:
+    0 0 10px rgba(232, 192, 64, 0.7),
+    1px 1px 0 #000;
+}
+
+.levelBadge {
+  font-size: 12px;
+  font-weight: bold;
+  color: #c0a030;
+  background: rgba(232, 192, 64, 0.12);
+  border: 1px solid #7a6010;
+  border-radius: 3px;
+  padding: 1px 5px;
+  letter-spacing: 0.05em;
 }
 
 .barRow {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin: 4px 0;
+  margin: 5px 0;
 }
 
 .label {
   font-size: 11px;
-  width: 28px;
+  width: 30px;
   color: #c4a060;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
 }
 
 .barBg {
   flex: 1;
-  height: 8px;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 2px;
+  height: 9px;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
   overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .barFg {
   height: 100%;
-  transition: width 0.1s ease;
-  border-radius: 2px;
+  border-radius: 3px;
+  transition: width 0.12s ease-out;
 }
 
 .barNum {
   font-size: 11px;
-  width: 40px;
+  min-width: 52px;
   text-align: right;
   color: #c4a060;
+  letter-spacing: 0.03em;
 }
 
 .rank {
   font-size: 11px;
   color: #e8c040;
-  margin-top: 6px;
+  margin-top: 7px;
   text-align: center;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 6px rgba(232, 192, 64, 0.5);
+  border-top: 1px solid rgba(139, 112, 32, 0.4);
+  padding-top: 6px;
 }
 
-.combo {
+/* ── 気合ゲージ (below player panel) ── */
+.kiaiPanel {
   position: absolute;
-  top: 50%;
-  right: 40px;
-  transform: translateY(-50%);
-  text-align: center;
-  animation: comboAppear 0.15s ease-out;
+  top: 178px;
+  left: 16px;
+  min-width: 240px;
+  padding: 8px 14px 10px;
 }
 
-.comboNum {
-  display: block;
-  font-size: 72px;
+.kiaiHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.kiaiLabel {
+  font-size: 13px;
   font-weight: 900;
   color: #e8c040;
-  text-shadow: 0 0 20px rgba(232, 192, 64, 0.8), 2px 2px 0 #000;
-  line-height: 1;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 8px rgba(232, 192, 64, 0.6);
 }
 
-.comboLabel {
-  display: block;
-  font-size: 20px;
-  font-weight: bold;
-  color: #ff6b35;
-  text-shadow: 1px 1px 0 #000;
-}
-
-@keyframes comboAppear {
-  from { transform: translateY(-50%) scale(1.4); opacity: 0.7; }
-  to   { transform: translateY(-50%) scale(1); opacity: 1; }
-}
-
-.controls {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+.kiaiFullBadge {
   font-size: 11px;
-  color: rgba(232, 213, 160, 0.5);
-  letter-spacing: 0.05em;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(90deg, #e8a000, #ffe050, #e8a000);
+  border-radius: 3px;
+  padding: 1px 6px;
+  letter-spacing: 0.1em;
+  animation: kiaiFullPulse 0.5s ease-in-out infinite alternate;
 }
 
+@keyframes kiaiFullPulse {
+  from { opacity: 0.75; transform: scale(0.97); }
+  to   { opacity: 1;    transform: scale(1.03); }
+}
+
+.kiaiBarBg {
+  height: 14px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #6a5010;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.9);
+}
+
+.kiaiBarFg {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    #7a5000 0%,
+    #d4a000 35%,
+    #ffe870 65%,
+    #d4a000 100%
+  );
+  transition: width 0.15s ease-out;
+  box-shadow: 0 0 8px rgba(255, 220, 0, 0.4);
+}
+
+.kiaiBarFull {
+  animation: kiaiBarGlow 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes kiaiBarGlow {
+  from { box-shadow: 0 0 8px rgba(255, 220, 0, 0.5); }
+  to   { box-shadow: 0 0 22px rgba(255, 220, 0, 1), 0 0 40px rgba(255, 200, 0, 0.5); }
+}
+
+.kiaiNums {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: rgba(196, 160, 96, 0.6);
+  margin-top: 3px;
+  letter-spacing: 0.04em;
+}
+
+/* ── Enemy panel (top-right) ── */
+.enemyPanel {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  min-width: 240px;
+}
+
+.enemyName {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ff6b6b;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+  text-shadow: 0 0 8px rgba(255, 80, 80, 0.6), 1px 1px 0 #000;
+}
+
+/* ── Fight phase indicator ── */
 .fightIndicator {
   position: absolute;
   top: 16px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: 900;
   color: #e74c3c;
-  text-shadow: 0 0 12px rgba(231, 76, 60, 0.8), 2px 2px 0 #000;
-  letter-spacing: 0.15em;
-  animation: pulse 0.8s ease-in-out infinite alternate;
+  letter-spacing: 0.2em;
+  text-shadow:
+    0 0 14px rgba(231, 76, 60, 0.9),
+    2px 2px 0 #000;
+  animation: fightPulse 0.7s ease-in-out infinite alternate;
+  white-space: nowrap;
 }
 
-@keyframes pulse {
-  from { opacity: 0.8; }
-  to   { opacity: 1; }
+@keyframes fightPulse {
+  from { opacity: 0.78; text-shadow: 0 0 10px rgba(231, 76, 60, 0.7), 2px 2px 0 #000; }
+  to   { opacity: 1;    text-shadow: 0 0 22px rgba(231, 76, 60, 1),   2px 2px 0 #000; }
+}
+
+/* ── Combo counter (right side, vertically centered) ── */
+.combo {
+  position: absolute;
+  top: 50%;
+  right: 36px;
+  transform: translateY(-50%);
+  text-align: center;
+  animation: comboAppear 0.15s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.comboBump {
+  animation: comboBump 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes comboAppear {
+  from { transform: translateY(-50%) scale(1.5); opacity: 0.5; }
+  to   { transform: translateY(-50%) scale(1);   opacity: 1; }
+}
+
+@keyframes comboBump {
+  0%   { transform: translateY(-50%) scale(1);   }
+  40%  { transform: translateY(-50%) scale(1.35); }
+  100% { transform: translateY(-50%) scale(1);   }
+}
+
+.comboNum {
+  display: block;
+  font-size: 80px;
+  font-weight: 900;
+  color: #e8c040;
+  text-shadow:
+    0 0 24px rgba(232, 192, 64, 0.85),
+    3px 3px 0 #000,
+    -1px -1px 0 rgba(0, 0, 0, 0.5);
+  line-height: 1;
+}
+
+.comboLabel {
+  display: block;
+  font-size: 22px;
+  font-weight: bold;
+  color: #ff6b35;
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+
+.maxCombo {
+  display: block;
+  font-size: 13px;
+  color: rgba(232, 213, 160, 0.55);
+  margin-top: 4px;
+  letter-spacing: 0.06em;
+}
+
+/* ── Controls hint (bottom center) ── */
+.controls {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0 4px;
+  font-size: 11px;
+  color: rgba(232, 213, 160, 0.45);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.controlItem {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.controlSep {
+  color: rgba(139, 112, 32, 0.5);
+}
+
+.controls kbd {
+  display: inline-block;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: bold;
+  color: #e8d5a0;
+  background: rgba(40, 20, 0, 0.7);
+  border: 1px solid rgba(139, 112, 32, 0.5);
+  border-radius: 3px;
+  padding: 0 4px;
+  line-height: 1.5;
 }

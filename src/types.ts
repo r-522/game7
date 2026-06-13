@@ -13,8 +13,11 @@ export type CombatStateId =
   | 'LOCOMOTION'
   | 'ATTACK_LIGHT'
   | 'ATTACK_HEAVY'
+  | 'SPECIAL'
+  | 'THROW'
   | 'DODGE'
   | 'BLOCK'
+  | 'PARRY'
   | 'HIT_REACT'
   | 'KO'
 
@@ -28,6 +31,7 @@ export interface MoveDef {
   hitstopFrames: number
   cancelInto: CombatStateId[]
   cancelWindow: number
+  kiaiCost?: number
 }
 
 export interface FsmData {
@@ -36,6 +40,7 @@ export interface FsmData {
   currentMoveId: string | null
   hitId: string | null
   alreadyHit: EntityId[]
+  comboStep: number
 }
 
 export interface EntityData {
@@ -55,9 +60,12 @@ export interface InputSnapshot {
   move: Vec3
   attackLight: boolean
   attackHeavy: boolean
+  special: boolean
   dodge: boolean
   block: boolean
   lock: boolean
+  throwAttack: boolean
+  interact: boolean
 }
 
 export interface MenchiDef {

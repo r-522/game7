@@ -3,6 +3,8 @@ import { usePlayerStore } from '@/state/usePlayerStore'
 import { useUIStore } from '@/state/useUIStore'
 import { EventBus } from '@/core/events/EventBus'
 import { MOVE_TABLE } from '@/data/moves/moveTable'
+import { AudioSystem } from '@/systems/audio/AudioSystem'
+import { KIAI_GRANT } from '@/systems/combat/CombatSystem'
 import { vec3Dist } from '@/core/math/pools'
 import type { EntityData } from '@/types'
 
@@ -23,12 +25,37 @@ function resolveHit(attacker: EntityData, target: EntityData, frame: number): vo
   const dist = vec3Dist(attacker.position, target.position)
   if (dist > HIT_RANGE) return
 
-  // Mark already-hit
+  // Mark this target as already hit this swing (no multi-hit in one arc)
   updateFsm(attacker.id, { alreadyHit: [...attacker.fsm.alreadyHit, target.id] })
 
+  // ── Block / Parry intercept ───────────────────────────────────────────────
+  let finalDamage = move.damage
+  const isSpecial = attacker.fsm.currentMoveId !== null &&
+    !['light1', 'light2', 'light3', 'heavy1', 'heavy2', 'throw1', 'dodge', 'parry']
+      .includes(attacker.fsm.currentMoveId)
+
+  if (target.fsm.state === 'PARRY') {
+    // Parry beats any attack — target takes 0 damage, parry counter window opens
+    // No damage, no hitstop, no knockback — parry already handled in FSM
+    return
+  }
+
+  if (target.fsm.state === 'BLOCK') {
+    // Heavy attacks break through block at full damage; light/special reduced
+    const isHeavy = attacker.fsm.currentMoveId === 'heavy1' || attacker.fsm.currentMoveId === 'heavy2'
+    if (!isHeavy) {
+      finalDamage = Math.ceil(move.damage * KIAI_GRANT.BLOCK_DAMAGE_MUL)
+    }
+    // Parry window: if block input was held on frames 1-4 of the block state
+    // and a hit arrives, auto-trigger PARRY (handled here)
+    if (target.team === 'PLAYER' && target.fsm.frameCount <= 4) {
+      updateFsm(target.id, { state: 'PARRY', frameCount: 0, currentMoveId: 'parry' })
+      return
+    }
+  }
+
   // Apply damage
-  const dmg = move.damage
-  applyDamage(target.id, dmg, frame, 20)
+  applyDamage(target.id, finalDamage, frame, 20)
 
   // Apply knockback in attacker's facing direction
   const angle = attacker.rotation
@@ -43,22 +70,42 @@ function resolveHit(attacker: EntityData, target: EntityData, frame: number): vo
   // Hitstop
   setHitstop(move.hitstopFrames)
 
-  // Flash
+  // UI flash
   useUIStore.getState().triggerHitFlash()
 
-  // Update player combo if attacker is player
+  // ── SFX ──────────────────────────────────────────────────────────────────
+  if (isSpecial) {
+    AudioSystem.playHitCrit()
+  } else {
+    const isHeavyMove = attacker.fsm.currentMoveId === 'heavy1' ||
+      attacker.fsm.currentMoveId === 'heavy2' ||
+      attacker.fsm.currentMoveId === 'throw1'
+    if (isHeavyMove) {
+      AudioSystem.playHitHeavy()
+    } else {
+      AudioSystem.playHitLight()
+    }
+  }
+
+  // ── Kiai award for player attacker ───────────────────────────────────────
   if (attacker.team === 'PLAYER') {
+    const isHeavyMove = attacker.fsm.currentMoveId === 'heavy1' ||
+      attacker.fsm.currentMoveId === 'heavy2' ||
+      attacker.fsm.currentMoveId === 'throw1'
+    const kiaiAward = isHeavyMove ? KIAI_GRANT.hitHeavy : KIAI_GRANT.hitLight
+    usePlayerStore.getState().addKiai(kiaiAward)
     usePlayerStore.getState().incrementCombo(frame)
   }
 
+  // EventBus broadcast
   EventBus.emit('HIT_LANDED', {
     attackerId: attacker.id,
     targetId: target.id,
-    damage: dmg,
+    damage: finalDamage,
     hitId: attacker.fsm.hitId,
   })
 
-  // Transition target to HIT_REACT
+  // Transition target to HIT_REACT or KO
   const freshTarget = useCombatStore.getState().entities[target.id]
   if (freshTarget && freshTarget.hp <= 0) {
     updateFsm(target.id, { state: 'KO', frameCount: 0 })

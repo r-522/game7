@@ -58,6 +58,7 @@ export function makeEnemyEntity(
       currentMoveId: null,
       hitId: null,
       alreadyHit: [],
+      comboStep: 0,
     },
   }
 }

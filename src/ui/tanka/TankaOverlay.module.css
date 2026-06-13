@@ -1,21 +1,76 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(18, 8, 0, 0.93);
+  background: rgba(10, 4, 0, 0.95);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 18px;
   font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
   color: #e8d5a0;
   z-index: 10;
+  overflow: hidden;
+  animation: overlayIn 0.3s ease-out both;
 }
 
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Countdown bar */
+.countdownTrack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+}
+
+.countdownFill {
+  height: 100%;
+  background: linear-gradient(to right, #2ecc71, #e8c040);
+  transition: width 0.9s linear, background 0.3s;
+}
+.countdownFill.danger {
+  background: linear-gradient(to right, #e74c3c, #ff6b6b);
+  animation: flashDanger 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes flashDanger {
+  from { opacity: 0.7; }
+  to   { opacity: 1; }
+}
+
+.countdownNum {
+  position: absolute;
+  right: 8px;
+  top: 10px;
+  font-size: 14px;
+  font-weight: 900;
+  color: #c4a060;
+  transition: color 0.3s;
+}
+.countdownNum.danger {
+  color: #e74c3c;
+  font-size: 18px;
+}
+
+/* Header */
 .header {
   display: flex;
   align-items: center;
   gap: 12px;
+  animation: slideDown 0.3s ease-out both;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
 }
 
 .tag {
@@ -23,49 +78,121 @@
   color: #120800;
   font-size: 14px;
   font-weight: 900;
-  padding: 3px 10px;
+  padding: 3px 12px;
   border-radius: 3px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
 }
 
 .enemyName {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   color: #3498db;
+  text-shadow: 0 0 10px rgba(52,152,219,0.5);
 }
 
+/* Speech bubble */
 .bubble {
-  background: rgba(255,255,255,0.05);
+  position: relative;
+  background: rgba(255,255,255,0.06);
   border: 2px solid #8B7020;
-  border-radius: 8px;
-  padding: 20px 32px;
-  max-width: 560px;
+  border-radius: 10px;
+  padding: 22px 36px;
+  max-width: 580px;
   text-align: center;
+  animation: bubbleIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275) both;
+}
+
+@keyframes bubbleIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+/* Triangle tail pointing up-left */
+.bubbleTail {
+  position: absolute;
+  top: -12px;
+  left: 40px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 12px solid #8B7020;
+}
+.bubbleTail::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 10px solid rgba(255,255,255,0.06);
 }
 
 .setup {
   font-size: 20px;
-  line-height: 1.6;
+  line-height: 1.8;
   color: #e8d5a0;
   letter-spacing: 0.05em;
 }
 
+/* Prompt */
 .prompt {
-  font-size: 14px;
+  font-size: 13px;
   color: #c4a060;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
 }
 
+/* Result flash */
+.resultFlash {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 20px currentColor;
+  animation: flashIn 0.3s cubic-bezier(0.175,0.885,0.32,1.275) both;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 5;
+  background: rgba(10,4,0,0.85);
+  padding: 12px 32px;
+  border-radius: 8px;
+}
+.resultFlash.correct {
+  color: #2ecc71;
+  border: 2px solid #2ecc71;
+}
+.resultFlash.wrong {
+  color: #e74c3c;
+  border: 2px solid #e74c3c;
+}
+
+@keyframes flashIn {
+  from { transform: translate(-50%,-50%) scale(0.6); opacity: 0; }
+  to   { transform: translate(-50%,-50%) scale(1);   opacity: 1; }
+}
+
+/* Choices */
 .choices {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  max-width: 560px;
+  max-width: 580px;
+  animation: choicesIn 0.4s ease-out 0.15s both;
+}
+
+@keyframes choicesIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }
 
 .choice {
-  background: rgba(232, 192, 64, 0.08);
+  background: rgba(232,192,64,0.06);
   border: 2px solid #5a4010;
   border-radius: 6px;
   color: #e8d5a0;
@@ -79,27 +206,35 @@
   font-size: 16px;
   text-align: left;
 }
-
 .choice:hover:not(:disabled) {
-  background: rgba(232, 192, 64, 0.2);
+  background: rgba(232,192,64,0.18);
   border-color: #e8c040;
+  transform: translateX(4px);
+  box-shadow: -4px 0 0 #e8c040;
 }
-
-.choice:disabled { opacity: 0.5; cursor: default; }
+.choice:disabled { cursor: default; }
 
 .chosen {
-  background: rgba(232, 192, 64, 0.35) !important;
+  background: rgba(232,192,64,0.22) !important;
   border-color: #e8c040 !important;
+}
+.choice.correct {
+  background: rgba(46,204,113,0.2) !important;
+  border-color: #2ecc71 !important;
+}
+.choice.wrong {
+  background: rgba(231,76,60,0.2) !important;
+  border-color: #e74c3c !important;
 }
 
 .choiceNum {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 900;
   color: #e8c040;
-  min-width: 28px;
+  min-width: 30px;
   text-align: center;
+  flex-shrink: 0;
 }
-
 .choiceText {
   flex: 1;
   line-height: 1.5;

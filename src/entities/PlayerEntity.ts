@@ -18,6 +18,7 @@ export function spawnPlayer(): void {
       currentMoveId: null,
       hitId: null,
       alreadyHit: [],
+      comboStep: 0,
     },
   }
   spawnEntity(player)
