@@ -1,0 +1,49 @@
+/* Global reset — the game fills 100% of the viewport, no scroll */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Showa-era yankee base palette */
+body {
+  background: #120800;
+  color: #e8d5a0;
+  /* System font stack — a custom 筆文字 web font is loaded in M8 */
+  font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+}
+
+/* Boot screen (M0 placeholder) */
+.boot-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.boot-title {
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #e8c040;
+  text-shadow: 0 0 30px rgba(232, 192, 64, 0.5);
+}
+
+.boot-sub {
+  font-size: 1rem;
+  color: #a08060;
+  letter-spacing: 0.2em;
+}

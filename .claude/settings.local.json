@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:ja.wikipedia.org)",
+      "Bash(npm --version)",
+      "Bash(npm config *)",
+      "Bash(npm run *)",
+      "Bash(npx *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(find *)",
+      "Bash(grep *)",
+      "Bash(sed *)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)",
+      "PowerShell(*)",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git merge --no-ff refactor/codebase -m ' *)",
+      "Bash(git push *)"
+    ]
+  }
+}
